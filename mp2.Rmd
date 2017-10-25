@@ -1,6 +1,6 @@
 ---
 title: "Mini-Project 2"
-author: "Sneha"
+author: "Sneha Verma"
 date: "October 31, 2017"
 output: html_document
 ---
