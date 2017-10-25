@@ -1,6 +1,6 @@
 ---
 title: "Mini-Project 2"
-author: "Sneha Verma"
+author: "Sneha, Pema, Tenzin"
 date: "October 31, 2017"
 output: html_document
 ---
@@ -10,9 +10,27 @@ output: html_document
 
 This project is so interesting and relevant to my life!
 
-```{r, include=FALSE}
+```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
+
+```{r, message=FALSE}
+library(tidyverse)
+glimpse(house_elections)
+```
+```{r}
+glimpse(candidates)
+```
+```{r}
+glimpse(committees)
+glimpse(contributions)
+```
+
+```{r}
+ggplot(candidates, aes(x = cand_name, y = cand_status))+
+  geom_point()
+```
+
