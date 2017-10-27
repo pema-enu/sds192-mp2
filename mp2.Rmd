@@ -29,8 +29,6 @@ glimpse(committees)
 glimpse(contributions)
 ```
 
-```{r}
-ggplot(candidates, aes(x = cand_name, y = cand_status))+
-  geom_point()
-```
+
+
 
