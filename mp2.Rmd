@@ -79,7 +79,12 @@ susanb_cand_fund <- committee_trans_2012 %>%
 head(susanb_cand_fund)
 ```
 ```{r}
-
+ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
+                             fill = cand_ici))+
+  coord_flip()+
+  geom_bar(stat = "identity") + 
+  scale_x_discrete("")+
+  scale_y_continuous("Total Contributions")
 ```
 
 ```{r}
