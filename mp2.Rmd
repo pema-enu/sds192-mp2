@@ -4,11 +4,7 @@ author: "Sneha, Pema, Tenzin"
 date: "October 31, 2017"
 output: html_document
 ---
-
-
-## Loading the data
-
-
+##The Incumbency Advantage
 ```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
 load("candidates.rda")
@@ -20,7 +16,7 @@ load("contributions.rda")
 library(tidyverse)
 library(lubridate)
 ```
-```{r}
+```{r, eval=FALSE}
 head(house_elections)
 ```
 
@@ -40,7 +36,6 @@ candidate_contributions <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
   #selecting the relevant variables
   select(cand_id, cand_name, cand_ici, cand_election_yr, cand_party_affiliation, cmte_id, transaction_type, name, transaction_dt, transaction_amt)
-head(candidate_contributions)
 ```
 
 ```{r}
@@ -49,7 +44,7 @@ committee_to_cand <- candidate_contributions %>%
   inner_join(committees, by = "cmte_id") %>%
   #select relevant columns
   select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_id.y, cand_name, cand_election_yr, cand_party_affiliation, cand_ici)
-head(committee_to_cand)
+
 #view dimensions of the new tbl_dr
 dim(committee_to_cand)
 ```
@@ -62,14 +57,14 @@ committee_to_cand <- committee_to_cand %>%
   mutate(transaction_dt = mdy(transaction_dt)) %>%
   #groups data by committee name
   group_by(cmte_name)
-head(committee_to_cand)
+
 #view dimensions to ensure there is enough data to use in our anaysis
 dim(committee_to_cand)
-
 ```
 ```{r}
 glimpse(committee_to_cand)
 ```
+
 
 
 
