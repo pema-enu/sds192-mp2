@@ -29,9 +29,39 @@ glimpse(committees)
 glimpse(contributions)
 ```
 ```{r}
-final_joint 
+glimpse(committees)
+```
+```{r}
+head(committees)
+```
+```{r}
+head(candidates)
+```
+```{r}
+head(contributions)
+```
+
+```{r}
+Committee_id <- committees%>%
+  filter(cmte_id =="C00000059" )
+glimpse(Committee_id)
+```
+
+
+
+```{r}
+#joint_final <- joint_data %>%
+ # inner_join(candidates, by = "cand_id")
+#glimpse(joint_final)
+```
+
+```{r}
+Hallmark <- committees %>% 
+  filter(cmte_name == "HALLMARK CARDS PAC")
+glimpse(Hallmark)
 
 ```
+
 
 
 
