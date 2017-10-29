@@ -19,18 +19,8 @@ load("contributions.rda")
 
 ```{r, message=FALSE}
 library(tidyverse)
-glimpse(house_elections)
 ```
-```{r}
-glimpse(candidates)
-```
-```{r}
-glimpse(committees)
-glimpse(contributions)
-```
-```{r}
-glimpse(committees)
-```
+
 ```{r}
 head(committees)
 ```
@@ -42,21 +32,39 @@ head(contributions)
 ```
 
 ```{r}
-Committee_id <- committees%>%
-  filter(cmte_id =="C00000059" )
-glimpse(Committee_id)
-```
-
-
-
-```{r}
 #joint_final <- joint_data %>%
  # inner_join(candidates, by = "cand_id")
 #glimpse(joint_final)
 ```
 
 ```{r}
-Hallmark <- committees %>% 
+committee_contributions <- committees %>%
+  inner_join(contributions, by = "cmte_id")
+head(committee_contributions)
+```
+
+```{r}
+committee_contributions <- committee_contributions %>%
+  select(cmte_id, cmte_name,transaction_type, name,transaction_dt, transaction_amt, cmte_party_affiliation)
+head(committee_contributions)
+```
+
+
+
+
+```{r}
+Committee_id <- contributions%>%
+  filter(cmte_id == "C00000059")
+glimpse(Committee_id)
+head(Committee_id)
+  
+```
+
+
+
+
+```{r}
+Hallmark <- committee_contributions %>% 
   filter(cmte_name == "HALLMARK CARDS PAC")
 glimpse(Hallmark)
 
