@@ -45,6 +45,14 @@ committee_to_cand <- candidate_contributions %>%
   inner_join(committees, by = "cmte_id") %>%
   select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_id.y, cand_name, cand_election_yr, cand_party_affiliation, cand_ici)
 head(committee_to_cand)
+dim(committee_to_cand)
+```
+```{r}
+transaction <- c("24A", "24E")
+committee_to_cand <- committee_to_cand %>%
+  filter(transaction_type %in% transaction)
+
+committee_to_cand
 ```
 
 
