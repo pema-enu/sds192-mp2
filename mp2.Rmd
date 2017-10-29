@@ -78,6 +78,9 @@ susanb_cand_fund <- committee_trans_2012 %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(susanb_cand_fund)
 ```
+```{r}
+
+```
 
 ```{r}
 #tidy
@@ -90,7 +93,9 @@ head(susanb_cand_fund_spread)
 ```{r}
 ggplot(susanb_cand_fund_spread, aes(x = cmte_name, y = C))+
   coord_flip()+
-  geom_bar(stat = "identity", position = "stack")
+  geom_bar(stat = "identity", position = "stack")+
+  scale_x_discrete()
+  scale_y_continuous("Contributions made in 2012")
 ```
 
 
