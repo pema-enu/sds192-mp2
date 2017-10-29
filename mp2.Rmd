@@ -16,17 +16,17 @@ load("contributions.rda")
 library(tidyverse)
 library(lubridate)
 ```
-```{r, eval=FALSE}
+```{r eval=FALSE}
 head(house_elections)
 ```
 
-```{r}
+```{r, eval = FALSE}
 head(committees)
 ```
-```{r}
+```{r, eval = FALSE}
 head(candidates)
 ```
-```{r}
+```{r, eval = FALSE}
 head(contributions)
 ```
 
@@ -54,15 +54,24 @@ transaction <- c("24A", "24E")
 committee_to_cand <- committee_to_cand %>%
   #filter transaction_type to values in 'transaction' i.e either "24A" or "24E"
   filter(transaction_type %in% transaction) %>%
-  mutate(transaction_dt = mdy(transaction_dt)) %>%
-  #groups data by committee name
-  group_by(cmte_name)
+  mutate(transaction_dt = mdy(transaction_dt))
 
 #view dimensions to ensure there is enough data to use in our anaysis
 dim(committee_to_cand)
 ```
+
 ```{r}
-glimpse(committee_to_cand)
+#filter date to year 2012 i.e transactions between Jan 1st, 2012 to Dec 31st, 2012
+committee_trans_2012 <- committee_to_cand %>%
+  filter(transaction_dt >= "2012-01-01" & transaction_dt <= "2012-12-31")
+head(committee_trans_2012)
+dim(committee_trans_2012)
+```
+```{r}
+#group_by committee and transaction type to find total contributions made in 2012 by each committee
+cmte_ordered_2012 <- committee_trans_2012 %>%
+  group_by(cmte_id)
+head(cmte_ordered_2012)
 ```
 
 
