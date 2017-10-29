@@ -8,7 +8,6 @@ output: html_document
 
 ## Loading the data
 
-This project is so interesting and relevant to my life!
 
 ```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
@@ -19,6 +18,9 @@ load("contributions.rda")
 
 ```{r, message=FALSE}
 library(tidyverse)
+```
+```{r}
+head(house_elections)
 ```
 
 ```{r}
@@ -32,44 +34,30 @@ head(contributions)
 ```
 
 ```{r}
-#joint_final <- joint_data %>%
- # inner_join(candidates, by = "cand_id")
-#glimpse(joint_final)
+candidate_contributions <- candidates %>%
+  inner_join(contributions, by = "cand_id") %>%
+  select(cand_id, cand_name, cand_ici, cand_election_yr, cand_party_affiliation, cmte_id, transaction_type, name, transaction_dt, transaction_amt)
+head(candidate_contributions)
 ```
 
 ```{r}
-committee_contributions <- committees %>%
-  inner_join(contributions, by = "cmte_id")
-head(committee_contributions)
-```
-
-```{r}
-committee_contributions <- committee_contributions %>%
-  select(cmte_id, cmte_name,transaction_type, name,transaction_dt, transaction_amt, cmte_party_affiliation)
-head(committee_contributions)
+committee_to_cand <- candidate_contributions %>%
+  inner_join(committees, by = "cmte_id") %>%
+  select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_id.y, cand_name, cand_election_yr, cand_party_affiliation, cand_ici)
+head(committee_to_cand)
 ```
 
 
-
-
 ```{r}
-Committee_id <- contributions%>%
-  filter(cmte_id == "C00000059")
-glimpse(Committee_id)
-head(Committee_id)
-  
-```
-
-
-
-
-```{r}
-Hallmark <- committee_contributions %>% 
+Hallmark <- committee_to_cand %>% 
   filter(cmte_name == "HALLMARK CARDS PAC")
 glimpse(Hallmark)
-
 ```
 
+```{r}
+ggplot(Hallmark, aes(x = cmte_name, y = transaction_amt))+
+  geom_point()
+```
 
 
 
