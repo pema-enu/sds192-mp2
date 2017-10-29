@@ -28,6 +28,10 @@ glimpse(candidates)
 glimpse(committees)
 glimpse(contributions)
 ```
+```{r}
+final_joint 
+
+```
 
 
 
