@@ -4,7 +4,22 @@ author: "Sneha, Pema, Tenzin"
 date: "October 31, 2017"
 output: html_document
 ---
+
 ##The Incumbency Advantage
+
+**What is the Incumbent Advantage?**
+ 
+As the incumbent, one holds many advantages over the challenger. Some of these advantages come in the form of:
+Funding
+Name recognition
+National attention
+Fundraising and Campaign Bases
+Control over the instruments of govt.
+Successful Campaign Experience
+Presumption of success and voters
+
+For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office. 
+
 ```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
 load("candidates.rda")
@@ -78,6 +93,7 @@ susanb_cand_fund <- committee_trans_2012 %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(susanb_cand_fund)
 ```
+
 ```{r}
 ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
                              fill = cand_ici))+
@@ -92,6 +108,17 @@ ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
 #  guides(fill = guide_legend("Candidate
 #Status"))
 ```
+
+```{r}
+#tidy
+susanb_cand_fund_spread <- susanb_cand_fund %>%
+  spread(key = "cand_ici", value = "cont_to_ici") %>%
+  mutate(total_contributions = C+I+O)
+head(susanb_cand_fund_spread)
+```
+
+```
+
 
 ```{r}
 #tidy
