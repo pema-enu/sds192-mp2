@@ -83,8 +83,14 @@ ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
                              fill = cand_ici))+
   coord_flip()+
   geom_bar(stat = "identity") + 
-  scale_x_discrete("")+
-  scale_y_continuous("Total Contributions")
+  scale_x_discrete("Committee", labels = c("Susan Anthony")) +
+  scale_y_continuous("Total Contributions", limits = c(0,12000), breaks = seq(0,12500, 6000), labels = c("$0", "$6000", "$12000"))+
+  scale_fill_manual(values = c("#999999", "#E69F00", "#56B4E9"),
+                    name = "Candidate\nStatus",
+                    breaks = c("C", "I", "O"),
+                    labels = c("Challenger", "Incubent", "Open Office"))
+#  guides(fill = guide_legend("Candidate
+#Status"))
 ```
 
 ```{r}
@@ -95,13 +101,6 @@ susanb_cand_fund_spread <- susanb_cand_fund %>%
 head(susanb_cand_fund_spread)
 ```
 
-```{r}
-ggplot(susanb_cand_fund_spread, aes(x = cmte_name, y = C))+
-  coord_flip()+
-  geom_bar(stat = "identity", position = "stack")+
-  scale_x_discrete()
-  scale_y_continuous("Contributions made in 2012")
-```
 
 
 
