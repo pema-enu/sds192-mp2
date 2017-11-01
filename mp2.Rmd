@@ -10,13 +10,20 @@ output: html_document
 **What is the Incumbent Advantage?**
  
 As the incumbent, one holds many advantages over the challenger. Some of these advantages come in the form of:
-Funding
-Name recognition
-National attention
-Fundraising and Campaign Bases
-Control over the instruments of govt.
-Successful Campaign Experience
-Presumption of success and voters
+
+- Funding
+
+- Name recognition
+
+- National attention
+
+- Fundraising and Campaign Bases
+
+- Control over the instruments of govt.
+
+- Successful Campaign Experience
+
+- Presumption of success and voters
 
 For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office. 
 
