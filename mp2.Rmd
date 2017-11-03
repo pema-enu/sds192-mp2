@@ -57,7 +57,7 @@ candidate_contributions <- candidates %>%
   #joining candidates and contributions by "cand_id"
   inner_join(contributions, by = "cand_id") %>%
   #selecting the relevant variables
-  select(cand_id, cand_name, cand_ici, cand_election_yr, cand_party_affiliation, cmte_id, transaction_type, name, transaction_dt, transaction_amt)
+  select(cand_id, cand_name, cand_ici, cand_election_yr, cand_party_affiliation, cmte_id, transaction_type, name, transaction_dt, transaction_amt, state)
 ```
 
 ```{r}
@@ -65,7 +65,7 @@ committee_to_cand <- candidate_contributions %>%
   #joining candidates, committees and contributions
   inner_join(committees, by = "cmte_id") %>%
   #select relevant columns
-  select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_name, cand_party_affiliation, cand_ici)
+  select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_name, cand_party_affiliation, cand_ici, state)
 
 #view dimensions of the new tbl_dr
 dim(committee_to_cand)
@@ -96,45 +96,73 @@ susanb_cand_fund <- committee_trans_2012 %>%
   #filtered for a certain committee
   filter(cmte_name == "SUSAN B ANTHONY LIST INC. CANDIDATE FUND") %>%
   #grouped by whether candidate is incumbent, challenger or 
-  group_by(cmte_name, cand_ici) %>%
+  group_by(cmte_name, cand_ici, state) %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(susanb_cand_fund)
 ```
+```{r}
+#global variables
+col1 <- "#EBDF8E"
+col2 <- "#EFC1CF"
+col3 <- "#83C6CC"
+font <- "sans"
+```
 
 ```{r}
-ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
+ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
+                             fill = cand_ici, label = cont_to_ici))+
+  coord_flip()+
+  ggtitle("Susan B Anthony List Inc. Candidate Fund")+
+  geom_bar(stat = "identity", position = "stack") + 
+  geom_text(size = 3, position = position_stack(vjust = 0.5)) +
+  scale_x_discrete("State") +
+  scale_y_continuous("Total '24E' Transactions:\n    Contributions advocating the election of a candidate", limits = c(0,10000), breaks = seq(0,10000, 5000), labels = c("$0", "$5,000", "$10,000"))+
+  scale_fill_manual(values = c(col1, col2, col3),
+                    name = "Candidate\n   Status",
+                    breaks = c("C", "I", "O"),
+                    labels = c("Challenger", "Incubent", "Open Office"))+
+  theme(plot.title = element_text(lineheight=.8, face="bold", family = font),
+        axis.title.x = element_text(size = 9, face = "bold", family = font),
+        axis.title.y = element_text(size = 9, face = "bold", family = font),
+        legend.position = "bottom",
+        legend.title = element_text(size = 9, face = "bold"))
+```
+```{r}
+#function:
+contributions <- function(com_name) {
+  table <- committee_trans_2012 %>%
+  #filtered for a certain committee
+  filter(cmte_name == com_name) %>%
+  #grouped by whether candidate is incumbent, challenger or 
+  group_by(cmte_name, cand_ici, state) %>%
+  summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
+head(table)
+
+ggplot(contributions, aes(x = state, y = cont_to_ici,
                              fill = cand_ici))+
   coord_flip()+
+  ggtitle(com_name)+
   geom_bar(stat = "identity") + 
-  scale_x_discrete("Committee", labels = c("Susan Anthony")) +
-  scale_y_continuous("Total Contributions", limits = c(0,12000), breaks = seq(0,12500, 6000), labels = c("$0", "$6000", "$12000"))+
-  scale_fill_manual(values = c("#999999", "#E69F00", "#56B4E9"),
-                    name = "Candidate\nStatus",
+  scale_x_discrete("State") +
+  scale_y_continuous("Total '24E' Transactions:\n    Contributions advocating the election of a candidate", limits = c(0,10000), breaks = seq(0,10000, 5000), labels = c("$0", "$5,000", "$10,000"))+
+  scale_fill_manual(values = c(col1, col2, col3),
+                    name = "Candidate\n   Status",
                     breaks = c("C", "I", "O"),
-                    labels = c("Challenger", "Incubent", "Open Office"))
-#  guides(fill = guide_legend("Candidate
-#Status"))
-```
-
-```{r}
-#tidy
-susanb_cand_fund_spread <- susanb_cand_fund %>%
-  spread(key = "cand_ici", value = "cont_to_ici") %>%
-  mutate(total_contributions = C+I+O)
-head(susanb_cand_fund_spread)
-```
-
+                    labels = c("Challenger", "Incubent", "Open Office"))+
+  theme(plot.title = element_text(lineheight=.8, face="bold"),
+        axis.title.x = element_text(size = 9, face = "bold"),
+        axis.title.y = element_text(size = 9, face = "bold"))
+}
 ```
 
 
 ```{r}
-#tidy
-susanb_cand_fund_spread <- susanb_cand_fund %>%
-  spread(key = "cand_ici", value = "cont_to_ici") %>%
-  mutate(total_contributions = C+I+O)
-head(susanb_cand_fund_spread)
+com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND")
 ```
 
+```{r}
+lapply(com_name, FUN = contributions)
+```
 
 
 
