@@ -5,7 +5,25 @@ date: "October 31, 2017"
 output: html_document
 ---
 
-##The Incumbency Advantage
+##The Incumbent Advantage
+
+
+Before we begin let us define some basic terms:
+
+**Who is the ‘incumbent’?**
+
+*The ‘incumbent’ is the current holder of an office or a political post.*
+
+**Who is the ‘challenger’?**
+
+*The ‘challenger’ is the person who wants to hold the office or political post next, i.e the person challenging the incumbent.* 
+
+*For example, in the 2012 U.S. presidential elections, Mitt Romney was challenger to Barack Obama’s incumbency.*
+
+**What is an 'Open Seat?**
+
+*An election with no incumbent runner is called an open seat.*
+
 
 **What is the Incumbent Advantage?**
  
@@ -25,7 +43,7 @@ As the incumbent, one holds many advantages over the challenger. Some of these a
 
 - Presumption of success and voters
 
-For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office. 
+For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office by state. More specifically we will be looking at transactions of type '24E', i.e. transactions made to advocate the election of a candidate. 
 
 ```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
@@ -40,17 +58,10 @@ library(lubridate)
 ```
 ```{r eval=FALSE}
 head(house_elections)
-```
-
-```{r, eval = FALSE}
 head(committees)
-```
-```{r, eval = FALSE}
-head(candidates)
-```
-```{r, eval = FALSE}
 head(contributions)
 ```
+
 
 ```{r}
 candidate_contributions <- candidates %>%
@@ -66,10 +77,8 @@ committee_to_cand <- candidate_contributions %>%
   inner_join(committees, by = "cmte_id") %>%
   #select relevant columns
   select(cmte_id, cmte_name, cmte_party_affiliation, transaction_type, name, transaction_dt, transaction_amt, cand_name, cand_party_affiliation, cand_ici, state)
-
-#view dimensions of the new tbl_dr
-dim(committee_to_cand)
 ```
+
 ```{r}
 #set the desired values of transaction_type
 #transaction <- c("24A", "24E")
@@ -78,9 +87,6 @@ committee_to_cand <- committee_to_cand %>%
   #filter transaction_type to values in 'transaction' i.e either "24A" or "24E"
   filter(transaction_type %in% transaction) %>%
   mutate(transaction_dt = mdy(transaction_dt))
-
-#view dimensions to ensure there is enough data to use in our anaysis
-dim(committee_to_cand)
 ```
 
 ```{r}
@@ -91,6 +97,7 @@ head(committee_trans_2012)
 unique(committee_trans_2012$cmte_name)[c(1,2,3,4,5,6)]
 ```
 
+*Let us begin by looking at the contributions made by a single committee - the "Susan B Anthony List Ince. Candidate Fund"*
 
 ```{r}
 susanb_cand_fund <- committee_trans_2012 %>%
@@ -99,7 +106,6 @@ susanb_cand_fund <- committee_trans_2012 %>%
   #grouped by whether candidate is incumbent, challenger or 
   group_by(cmte_name, cand_ici, state) %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
-head(susanb_cand_fund)
 
 committee_summary <- function(data_trans, cmt_name)
   data_trans %>%
@@ -111,20 +117,24 @@ committee_summary <- function(data_trans, cmt_name)
 ```
 
 ```{r}
-#global variables
+#global variables that can be accessed by all functions and plots
 col1 <- "#EBDF8E"
 col2 <- "#EFC1CF"
 col3 <- "#83C6CC"
 font <- "sans"
 ```
 
+From the graph below we see that in the states of ___ & ___ most contributions were given to the incumbent in comparison to their challenger and open seat. 
 
 ```{r , echo=FALSE}
+#insert a fill inorder to see the transactions to different candidate types
 ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
                              fill = cand_ici))+
+  #flip the x and y coordinates
   coord_flip()+
   ggtitle("Susan B Anthony List Inc. Candidate Fund")+
   geom_bar(stat = "identity") + 
+  #view values on the geom_bar
   geom_text(aes(label=cont_to_ici),position=position_stack(vjust=0.5))+
     scale_x_discrete("State") +
   scale_y_continuous("Total '24E' Contributions:\n Transaactions Advocating Election of a Candidate", limits = c(0,10000), breaks = seq(0, 10000, 5000), labels = c("$0", "$5,000", "$10,000")) +
@@ -135,6 +145,7 @@ ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
   theme(plot.title = element_text(lineheight=.8, face="bold", family = font),
         axis.title.x = element_text(size = 9, face = "bold", family = font),
         axis.title.y = element_text(size = 9, face = "bold", family = font),
+        #place legend/key in the bottom
         legend.position = "bottom",
         legend.title = element_text(size = 9, face = "bold"))
 ```
@@ -209,7 +220,7 @@ ggplot(table, aes(x = state, y = cont_to_ici,
 com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND", "CLUB FOR GROWTH PAC", "SUSAN B ANTHONY LIST INC", "NATIONAL RIFLE ASSOCIATION OF AMERICA POLITICAL VICTORY FUND")
 ```
 
-```{r, warning = False}
+```{r, warning = FALSE}
 lapply(com_name, FUN = contributions)
 ```
 
