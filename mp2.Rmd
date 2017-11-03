@@ -43,7 +43,7 @@ As the incumbent, one holds many advantages over the challenger. Some of these a
 
 - Presumption of success and voters
 
-For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office by state. More specifically we will be looking at transactions of type '24E', i.e. transactions made to advocate the election of a candidate. 
+For our project we are looking at whether incumbents held a monetary advantage over their challengers in the U.S. elections for 2012. In order to do this we will take a look at monetary contributions by committees to challengers, incumbents, and open office by state. More specifically we will be looking at transactions of type '24E', i.e. transactions made to advocate the election of a candidate.
 
 ```{r, include=FALSE, message=FALSE}
 load("house_elections.rda")
@@ -224,8 +224,9 @@ com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND", "CLUB FOR GROWTH PAC",
 lapply(com_name, FUN = contributions)
 ```
 
+**Analysis**
 
-
+The results are inconsistent with the research that we found thus far.However, it is important to remember that we have only focused on  Amongst the three committees that we have looked at so far only NRA had donated more money to candidates who were running for an Open office. Also In
 
 
 
