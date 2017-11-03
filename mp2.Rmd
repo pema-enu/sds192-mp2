@@ -93,7 +93,6 @@ unique(committee_trans_2012$cmte_name)[c(1,2,3,4,5,6)]
 
 
 ```{r}
-<<<<<<< HEAD
 susanb_cand_fund <- committee_trans_2012 %>%
   #filtered for a certain committee
   filter(cmte_name == "SUSAN B ANTHONY LIST INC. CANDIDATE FUND") %>%
@@ -101,8 +100,6 @@ susanb_cand_fund <- committee_trans_2012 %>%
   group_by(cmte_name, cand_ici, state) %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(susanb_cand_fund)
-=======
->>>>>>> 74ed91233790b662c57b75c58e24e9fcc8109bd8
 
 committee_summary <- function(data_trans, cmt_name)
   data_trans %>%
@@ -112,6 +109,7 @@ committee_summary <- function(data_trans, cmt_name)
     group_by(cmte_name, cand_ici) %>%
     summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 ```
+
 ```{r}
 #global variables
 col1 <- "#EBDF8E"
@@ -120,7 +118,6 @@ col3 <- "#83C6CC"
 font <- "sans"
 ```
 
-<<<<<<< HEAD
 
 ```{r , echo=FALSE}
 ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
@@ -129,10 +126,19 @@ ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
   ggtitle("Susan B Anthony List Inc. Candidate Fund")+
   geom_bar(stat = "identity") + 
   geom_text(aes(label=cont_to_ici),position=position_stack(vjust=0.5))+
-  scale_x_discrete("State") +
+    scale_x_discrete("State") +
   scale_y_continuous("Total '24E' Contributions:\n Transaactions Advocating Election of a Candidate", limits = c(0,10000), breaks = seq(0, 10000, 5000), labels = c("$0", "$5,000", "$10,000")) +
   scale_fill_manual(values = c(col1, col2, col3),
-=======
+                    name = "Candidate\nStatus",
+                    breaks = c("C", "I", "O"),
+                    labels = c("Challenger", "Incubent", "Open Office"))+
+  theme(plot.title = element_text(lineheight=.8, face="bold", family = font),
+        axis.title.x = element_text(size = 9, face = "bold", family = font),
+        axis.title.y = element_text(size = 9, face = "bold", family = font),
+        legend.position = "bottom",
+        legend.title = element_text(size = 9, face = "bold"))
+```
+
 ```{r}
 plot_cmt_summary <- function(cmt_summary,cmt_name)
   ggplot(cmt_summary, aes(x = cmte_name, y = cont_to_ici,
@@ -142,7 +148,6 @@ plot_cmt_summary <- function(cmt_summary,cmt_name)
   scale_x_discrete("Committee", labels = c(cmt_name)) +
   scale_y_continuous("Total Contributions", limits = c(0,sum(cmt_summary$cont_to_ici)), breaks = seq(0,sum(cmt_summary$cont_to_ici), sum(cmt_summary$cont_to_ici)/5), labels = c("0%","20%","40%","60%","80%","100%") ) +
   scale_fill_manual(values = c("#999999", "#E69F00", "#56B4E9"),
->>>>>>> 74ed91233790b662c57b75c58e24e9fcc8109bd8
                     name = "Candidate\nStatus",
                     breaks = c("C", "I", "O"),
                     labels = c("Challenger", "Incubent", "Open Office")) 
@@ -156,20 +161,18 @@ plot_cmt_summary <- function(cmt_summary,cmt_name)
 #Status"))
 ```
 
-<<<<<<< HEAD
-=======
 
 ```{r  fig.width=5, fig.height=0.75, echo=FALSE}
 susanb_cand_fund <- committee_summary(committee_trans_2012,"SUSAN B ANTHONY LIST INC. CANDIDATE FUND")
 plot_cmt_summary(susanb_cand_fund,"Susan Anthony")
 ```
 
-```{r  fig.width=5, fig.height=0.75, echo=FALSE}
+```{r , echo=FALSE}
 amer_cand_fund <- committee_summary(committee_trans_2012,"CLUB FOR GROWTH PAC"  )
 plot_cmt_summary(amer_cand_fund,"CLUB FOR GROWTH PAC"  )
 ```
 
->>>>>>> 74ed91233790b662c57b75c58e24e9fcc8109bd8
+
 ```{r}
 #function:
 contributions <- function(com_name) {
@@ -203,10 +206,10 @@ ggplot(table, aes(x = state, y = cont_to_ici,
 
 
 ```{r}
-com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND")
+com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND", "CLUB FOR GROWTH PAC", "SUSAN B ANTHONY LIST INC", "NATIONAL RIFLE ASSOCIATION OF AMERICA POLITICAL VICTORY FUND")
 ```
 
-```{r}
+```{r, warning = False}
 lapply(com_name, FUN = contributions)
 ```
 
