@@ -93,7 +93,6 @@ dim(committee_trans_2012)
 
 
 ```{r}
-<<<<<<< HEAD
 susanb_cand_fund <- committee_trans_2012 %>%
   #filtered for a certain committee
   filter(cmte_name == "SUSAN B ANTHONY LIST INC. CANDIDATE FUND") %>%
@@ -101,7 +100,7 @@ susanb_cand_fund <- committee_trans_2012 %>%
   group_by(cmte_name, cand_ici, state) %>%
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(susanb_cand_fund)
-=======
+
 committee_summary <- function(data_trans, cmt_name)
   data_trans %>%
     #filtered for a certain committee
@@ -109,7 +108,6 @@ committee_summary <- function(data_trans, cmt_name)
     #grouped by whether candidate is incumbent, challenger or 
     group_by(cmte_name, cand_ici) %>%
     summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
->>>>>>> 95742c8a41e14a0521241c14fc03db50778d5118
 ```
 ```{r}
 #global variables
@@ -120,34 +118,17 @@ font <- "sans"
 ```
 
 
-```{r}
-<<<<<<< HEAD
+```{r , echo=FALSE}
 ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
-                             fill = cand_ici, label = cont_to_ici))+
-  coord_flip()+
-  ggtitle("Susan B Anthony List Inc. Candidate Fund")+
-  geom_bar(stat = "identity", position = "stack") + 
-  geom_text(size = 3, position = position_stack(vjust = 0.5)) +
-  scale_x_discrete("State") +
-  scale_y_continuous("Total '24E' Transactions:\n    Contributions advocating the election of a candidate", limits = c(0,10000), breaks = seq(0,10000, 5000), labels = c("$0", "$5,000", "$10,000"))+
-  scale_fill_manual(values = c(col1, col2, col3),
-                    name = "Candidate\n   Status",
-=======
-susanb_cand_fund <- committee_summary(committee_trans_2012,"SUSAN B ANTHONY LIST INC. CANDIDATE FUND")
-head(susanb_cand_fund)
-```
-
-
-```{r fig.width=5, fig.height=0.75, echo=FALSE}
-ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
                              fill = cand_ici))+
   coord_flip()+
+  ggtitle("Susan B Anthony List Inc. Candidate Fund")+
   geom_bar(stat = "identity") + 
-  scale_x_discrete("Committee", labels = c("Susan Anthony")) +
-  scale_y_continuous("Total Contributions", limits = c(0,9000), breaks = seq(0,9000, 1000) ) +
-  scale_fill_manual(values = c("#999999", "#E69F00", "#56B4E9"),
+  geom_text(aes(label=cont_to_ici),position=position_stack(vjust=0.5))+
+  scale_x_discrete("State") +
+  scale_y_continuous("Total '24E' Contributions:\n Transaactions Advocating Election of a Candidate", limits = c(0,10000), breaks = seq(0, 10000, 5000), labels = c("$0", "$5,000", "$10,000")) +
+  scale_fill_manual(values = c(col1, col2, col3),
                     name = "Candidate\nStatus",
->>>>>>> 95742c8a41e14a0521241c14fc03db50778d5118
                     breaks = c("C", "I", "O"),
                     labels = c("Challenger", "Incubent", "Open Office"))+
   theme(plot.title = element_text(lineheight=.8, face="bold", family = font),
@@ -156,6 +137,7 @@ ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
         legend.position = "bottom",
         legend.title = element_text(size = 9, face = "bold"))
 ```
+
 ```{r}
 #function:
 contributions <- function(com_name) {
@@ -167,20 +149,23 @@ contributions <- function(com_name) {
   summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
 head(table)
 
-ggplot(contributions, aes(x = state, y = cont_to_ici,
+ggplot(table, aes(x = state, y = cont_to_ici,
                              fill = cand_ici))+
   coord_flip()+
   ggtitle(com_name)+
   geom_bar(stat = "identity") + 
+  geom_text(aes(label=cont_to_ici),position=position_stack(vjust=0.5))+
   scale_x_discrete("State") +
-  scale_y_continuous("Total '24E' Transactions:\n    Contributions advocating the election of a candidate", limits = c(0,10000), breaks = seq(0,10000, 5000), labels = c("$0", "$5,000", "$10,000"))+
+  scale_y_continuous("Total '24E' Contributions:\n Transaactions Advocating Election of a Candidate", limits = c(0,10000), breaks = seq(0, 10000, 5000), labels = c("$0", "$5,000", "$10,000")) +
   scale_fill_manual(values = c(col1, col2, col3),
-                    name = "Candidate\n   Status",
+                    name = "Candidate\nStatus",
                     breaks = c("C", "I", "O"),
                     labels = c("Challenger", "Incubent", "Open Office"))+
-  theme(plot.title = element_text(lineheight=.8, face="bold"),
-        axis.title.x = element_text(size = 9, face = "bold"),
-        axis.title.y = element_text(size = 9, face = "bold"))
+  theme(plot.title = element_text(lineheight=.8, face="bold", family = font),
+        axis.title.x = element_text(size = 9, face = "bold", family = font),
+        axis.title.y = element_text(size = 9, face = "bold", family = font),
+        legend.position = "bottom",
+        legend.title = element_text(size = 9, face = "bold"))
 }
 ```
 
