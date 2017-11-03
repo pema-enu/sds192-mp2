@@ -91,23 +91,31 @@ head(committee_trans_2012)
 dim(committee_trans_2012)
 ```
 
+
 ```{r}
-susanb_cand_fund <- committee_trans_2012 %>%
-  #filtered for a certain committee
-  filter(cmte_name == "SUSAN B ANTHONY LIST INC. CANDIDATE FUND") %>%
-  #grouped by whether candidate is incumbent, challenger or 
-  group_by(cmte_name, cand_ici) %>%
-  summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
+committee_summary <- function(data_trans, cmt_name)
+  data_trans %>%
+    #filtered for a certain committee
+    filter(cmte_name == "SUSAN B ANTHONY LIST INC. CANDIDATE FUND") %>%
+    #grouped by whether candidate is incumbent, challenger or 
+    group_by(cmte_name, cand_ici) %>%
+    summarise(cont_to_ici = sum(transaction_amt, na.rm = TRUE))
+```
+
+
+```{r}
+susanb_cand_fund <- committee_summary(committee_trans_2012,"SUSAN B ANTHONY LIST INC. CANDIDATE FUND")
 head(susanb_cand_fund)
 ```
 
-```{r}
+
+```{r fig.width=5, fig.height=0.75, echo=FALSE}
 ggplot(susanb_cand_fund, aes(x = cmte_name, y = cont_to_ici,
                              fill = cand_ici))+
   coord_flip()+
   geom_bar(stat = "identity") + 
   scale_x_discrete("Committee", labels = c("Susan Anthony")) +
-  scale_y_continuous("Total Contributions", limits = c(0,12000), breaks = seq(0,12500, 6000), labels = c("$0", "$6000", "$12000"))+
+  scale_y_continuous("Total Contributions", limits = c(0,9000), breaks = seq(0,9000, 1000) ) +
   scale_fill_manual(values = c("#999999", "#E69F00", "#56B4E9"),
                     name = "Candidate\nStatus",
                     breaks = c("C", "I", "O"),
