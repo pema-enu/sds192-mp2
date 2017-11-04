@@ -124,7 +124,7 @@ col3 <- "#83C6CC"
 font <- "sans"
 ```
 
-From the graph below we see that in the states of ___ & ___ most contributions were given to the incumbent in comparison to their challenger and open seat. 
+From the graph below we see that in the states of Vermont  & Florida most contributions were given to the incumbent in comparison to their challenger and open seat. 
 
 ```{r , echo=FALSE}
 #insert a fill inorder to see the transactions to different candidate types
@@ -223,10 +223,25 @@ com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND", "CLUB FOR GROWTH PAC",
 ```{r, warning = FALSE}
 lapply(com_name, FUN = contributions)
 ```
+In order to see the '24E' contributions made by other committees, once can add the committee name to the com_name list.
+```{r}
+#create a list with variables to be used in the 'contributions' function
+
+com_name <- c("SUSAN B ANTHONY LIST INC. CANDIDATE FUND", "CLUB FOR GROWTH PAC", "SUSAN B ANTHONY LIST INC", "NATIONAL RIFLE ASSOCIATION OF AMERICA POLITICAL VICTORY FUND")
+```
+```{r}
+#apply all values in the list 'com_name' to the contributions function
+lapply(com_name, FUN = contributions)
+```
+
 
 **Analysis**
 
-The results are inconsistent with the research that we found thus far.However, it is important to remember that we have only focused on  Amongst the three committees that we have looked at so far only NRA had donated more money to candidates who were running for an Open office. Also In
+The results are inconsistent with the research that we have found thus far.However,it is important to realize that we have only focused on three committees. Amongst the three committees that we have looked at so far only the  NRA has donated more money to candidates who were running for an Open office in 2012. Also in the Susan B. Anthony committee has in Florida and Virgina donated the most money to incumbents. However, if looking at all the states it gave most of its money to the challengers. 
+
+**Limitations and Future Work**
+We have only looked at three committees it will be important to look at all the committees and see if this inconsistency matches or does it hold up with the reasearch that we have found saying to 
+
 
 
 
