@@ -94,7 +94,7 @@ committee_to_cand <- committee_to_cand %>%
 committee_trans_2012 <- committee_to_cand %>%
   filter(transaction_dt >= "2012-01-01" & transaction_dt <= "2012-12-31")
 head(committee_trans_2012)
-unique(committee_trans_2012$cmte_name)[c(1,2,3,4,5,6,7,8,9)]
+unique(committee_trans_2012$cmte_name)[c(1:9)]
 ```
 
 *Let us begin by looking at the contributions made by a single committee - the "Susan B Anthony List Ince. Candidate Fund"*
@@ -135,7 +135,7 @@ ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
   ggtitle("Susan B Anthony List Inc. Candidate Fund")+
   geom_bar(stat = "identity") + 
   #view values on the geom_bar
-  geom_text(aes(label=cont_to_ici),position="stack", angle = -90, size = 3)+
+  geom_text(aes(label=sprintf("$%s",cont_to_ici)),position="stack", angle = -90, size = 3)+
     scale_x_discrete("State") +
   scale_y_continuous("Total '24E' Contributions:\n Transaactions Advocating Election of a Candidate", limits = c(0,10000), breaks = seq(0, 10000, 5000), labels = c("$0", "$5,000", "$10,000")) +
   scale_fill_manual(values = c(col1, col2, col3),
@@ -152,7 +152,7 @@ ggplot(susanb_cand_fund, aes(x = state, y = cont_to_ici,
 
 ```{r}
 #create the functions 'contributions' that takes in the variable com_name
-contributions <- function(com_name) {
+contributions <- function(com_name){ 
   #create a tbl_df to be used to create a ggplot
   table <- committee_trans_2012 %>%
   #filtered for a certain committee by the committee name
@@ -171,7 +171,7 @@ ggplot(table, aes(x = state, y = cont_to_ici,
   ggtitle(com_name)+
   geom_bar(stat = "identity") + 
   #include labels of the '24E' amount contributed to each candidacy
-  geom_text(aes(label=cont_to_ici),position="stack", angle = -90, size = 3)+
+  geom_text(aes(label=sprintf("$%s",cont_to_ici),position="stack", angle = -90, size = 1))+
   #x-axis label
   scale_x_discrete("State") +
   #y-axis label with breaks
@@ -208,14 +208,15 @@ lapply(com_name, FUN = contributions)
 
 **Analysis**
 
-The results are consistent (for 3 of the 4 committees we have looked at) with the research that we have found thus far. However,it is important to realize that we have only focused on three committees. Amongst the 4 committees that we have looked at so far only the NRA has donated more money to candidates who were running for an Open office in 2012. Also in the Susan B. Anthony committee has in Florida and Virgina donated the most money to incumbents. However, if looking at all the states it gave most of its money to the challengers. 
+The results are consistent (for 3 of the 5 committees we have looked at) with the research that we have found thus far. However,it is important to realize that we have only focused on three committees. Amongst the 5 committees that we have looked at so far only the NRA has donated more money to candidates who were running for an Open office in 2012. Also in the Susan B. Anthony committee has in Florida and Virgina donated the most money to incumbents. However, if we look at all the states it gave most of its money to the challengers. 
 
 **Limitations and Future Work**
 
-We have only looked at three committees it will be important to look at all the committees to see if this inconsistency that we have seen thus far holds. Looking at more committees we will be able to see if Incumbents have truly have a monetary advantage against or candidate. another limitation of our graph is that have shown the percentages only the total monetary value. It would be nice to calculate the percentages given to each candidate rather than the amount of money given. In the future, it would interesting to calculate the percentages of contribution given by each committee. Also it would be interesting to see the percentage of Incumbents winning in each state maybe seeing if there are some states that elect more incumbents than others. 
+We have only looked at three committees it will be important to look at all the committees to see if this inconsistency that we have seen thus far holds. Looking at more committees we will be able to see if Incumbents have truly have a monetary advantage against or candidate. We have looked at the amount of fund each candidate status gets but it would be better to see how much each candidate gets. In the future, it would interesting to calculate the percentages of contribution given by each committee. Also it would be interesting to see the percentage of Incumbents winning in each state maybe seeing if there are some states that elect more incumbents than others. 
+We have also restricted the year to 2012 to make data visualization easier. In the future, we could look at more years to draw clearer trends. 
 
-- we need to make labels clearer
-- look at different years and transaction types
+
+
 
 
 
