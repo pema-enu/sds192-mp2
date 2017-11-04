@@ -240,7 +240,8 @@ lapply(com_name, FUN = contributions)
 The results are inconsistent with the research that we have found thus far.However,it is important to realize that we have only focused on three committees. Amongst the three committees that we have looked at so far only the  NRA has donated more money to candidates who were running for an Open office in 2012. Also in the Susan B. Anthony committee has in Florida and Virgina donated the most money to incumbents. However, if looking at all the states it gave most of its money to the challengers. 
 
 **Limitations and Future Work**
-We have only looked at three committees it will be important to look at all the committees and see if this inconsistency matches or does it hold up with the reasearch that we have found saying to 
+
+We have only looked at three committees it will be important to look at all the committees to see if this inconsistency that we have seen thus far holds. Looking at more committees we will be able to see if Incumbents have truly have a monetary advantage against or candidate. another limitation of our graph is that have shown the percentages only the total monetary value. It would be nice to calculate the percentages given to each candidate rather than the amount of money given. In the future, it would interesting to calculate the percentages of contribution given by each committee. Also it would be interesting to see the percentage of Incumbents winning in each state maybe seeing if there are some states that elect more incumbents than others. T
 
 
 
