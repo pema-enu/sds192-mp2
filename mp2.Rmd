@@ -214,6 +214,9 @@ The results are consistent (for 3 of the 4 committees we have looked at) with th
 
 We have only looked at three committees it will be important to look at all the committees to see if this inconsistency that we have seen thus far holds. Looking at more committees we will be able to see if Incumbents have truly have a monetary advantage against or candidate. another limitation of our graph is that have shown the percentages only the total monetary value. It would be nice to calculate the percentages given to each candidate rather than the amount of money given. In the future, it would interesting to calculate the percentages of contribution given by each committee. Also it would be interesting to see the percentage of Incumbents winning in each state maybe seeing if there are some states that elect more incumbents than others. 
 
+- we need to make labels clearer
+- look at different years and transaction types
+
 
 
 
